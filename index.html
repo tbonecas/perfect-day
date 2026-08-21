@@ -2,10 +2,10 @@
 <html lang="pt">
 <head>
   <meta charset="UTF-8">
-  <!-- Otimizado para o notch/Dynamic Island do iPhone --> 
+  <!-- Otimizado para iPhone / iOS Safe Area -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no">
   
-  <!-- Suporte Web App no iOS -->
+  <!-- Suporte Web App iOS -->
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="apple-mobile-web-app-title" content="Perfect Day">
@@ -39,7 +39,7 @@
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      -webkit-tap-highlight-color: transparent; /* Remove o piscar azul ao tocar no iPhone */
+      -webkit-tap-highlight-color: transparent;
     }
 
     body {
@@ -48,14 +48,13 @@
       color: var(--text);
       line-height: 1.6;
       padding: 20px 16px;
-      /* Ajuste dinâmico para a barra inferior do iPhone */
       padding-bottom: calc(60px + env(safe-area-inset-bottom));
       min-height: 100vh;
       -webkit-font-smoothing: antialiased;
     }
 
     .container {
-      max-width: 600px;
+      max-width: 620px;
       margin: 0 auto;
     }
 
@@ -80,7 +79,7 @@
 
     h1 {
       font-family: 'Cormorant Garamond', Georgia, serif;
-      font-size: 2.8rem;
+      font-size: 2.9rem;
       font-weight: 600;
       color: var(--text);
       letter-spacing: -0.5px;
@@ -99,7 +98,7 @@
     .timeline {
       display: flex;
       flex-direction: column;
-      gap: 20px;
+      gap: 22px;
       margin-top: 15px;
     }
 
@@ -129,8 +128,8 @@
 
     .card-icon {
       font-size: 1.4rem;
-      width: 40px;
-      height: 40px;
+      width: 42px;
+      height: 42px;
       background: var(--primary-light);
       border-radius: 50%;
       display: flex;
@@ -140,7 +139,7 @@
 
     h2 {
       font-family: 'Cormorant Garamond', Georgia, serif;
-      font-size: 1.55rem;
+      font-size: 1.6rem;
       color: var(--text);
       font-weight: 600;
     }
@@ -156,7 +155,7 @@
 
     p {
       color: #555;
-      font-size: 0.95rem;
+      font-size: 0.96rem;
     }
 
     /* Regras */
@@ -191,12 +190,22 @@
       margin-top: 1px;
     }
 
-    /* Imagens & Media */
+    /* Imagens com Zoom */
+    .zoomable-img {
+      cursor: zoom-in;
+      transition: transform 0.25s ease, opacity 0.2s;
+    }
+    
+    .zoomable-img:active {
+      opacity: 0.85;
+      transform: scale(0.98);
+    }
+
     .media-placeholder {
       margin-top: 14px;
       background: #fdfbf9;
       border: 1.5px dashed var(--border);
-      border-radius: 14px;
+      border-radius: 16px;
       padding: 12px;
       text-align: center;
       color: var(--text-muted);
@@ -205,35 +214,135 @@
 
     .media-placeholder img {
       width: 100%;
-      max-height: 220px;
+      max-height: 230px;
       object-fit: cover;
-      border-radius: 10px;
+      border-radius: 12px;
       display: block;
       margin-bottom: 8px;
     }
 
-    .media-grid {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 12px;
-      margin-top: 14px;
+    /* Carrossel do Mapa */
+    .carousel-section {
+      margin-top: 16px;
+      background: #fdfbf9;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 14px;
+      position: relative;
     }
 
-    @media (min-width: 480px) {
-      .media-grid {
-        grid-template-columns: 1fr 1fr;
-      }
+    .carousel-header-hint {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-bottom: 10px;
     }
 
-    /* Jantar */
+    .carousel-container {
+      position: relative;
+      overflow: hidden;
+      border-radius: 12px;
+      background: #000;
+    }
+
+    .carousel-slides {
+      display: flex;
+      transition: transform 0.35s cubic-bezier(0.25, 1, 0.5, 1);
+      width: 100%;
+    }
+
+    .carousel-slide {
+      min-width: 100%;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .carousel-slide img {
+      width: 100%;
+      height: 240px;
+      object-fit: cover;
+      display: block;
+      cursor: zoom-in;
+    }
+
+    .carousel-caption-box {
+      background: #ffffff;
+      padding: 12px 14px;
+      border-top: 1px solid var(--border);
+      min-height: 58px;
+      display: flex;
+      align-items: center;
+    }
+
+    .slide-caption {
+      font-size: 0.88rem;
+      color: var(--text);
+      line-height: 1.4;
+    }
+
+    .carousel-btn {
+      position: absolute;
+      top: 120px;
+      transform: translateY(-50%);
+      background: rgba(255, 255, 255, 0.85);
+      -webkit-backdrop-filter: blur(4px);
+      backdrop-filter: blur(4px);
+      border: none;
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      color: var(--text);
+      font-size: 1.3rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 5;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+      transition: background 0.2s;
+    }
+
+    .carousel-btn:active {
+      background: #fff;
+    }
+
+    .carousel-btn.prev { left: 10px; }
+    .carousel-btn.next { right: 10px; }
+
+    .carousel-indicators {
+      display: flex;
+      justify-content: center;
+      gap: 6px;
+      margin-top: 10px;
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--border);
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+
+    .dot.active {
+      background: var(--primary-dark);
+      width: 22px;
+      border-radius: 10px;
+    }
+
+    /* Jantar: Fotografias Maiores */
     .dinner-options {
       display: grid;
       grid-template-columns: 1fr;
-      gap: 10px;
-      margin-top: 14px;
+      gap: 14px;
+      margin-top: 16px;
     }
 
-    @media (min-width: 480px) {
+    @media (min-width: 520px) {
       .dinner-options {
         grid-template-columns: repeat(3, 1fr);
       }
@@ -241,53 +350,79 @@
 
     .dinner-card {
       border: 2px solid var(--border);
-      border-radius: 14px;
+      border-radius: 16px;
       padding: 10px;
       text-align: center;
-      cursor: pointer;
       background: #fff;
-      transition: all 0.2s ease;
+      transition: all 0.25s ease;
       display: flex;
       flex-direction: column;
-      align-items: center;
-      gap: 6px;
+      gap: 8px;
+      position: relative;
     }
 
-    .dinner-card:active, .dinner-card.selected {
+    .dinner-card.selected {
       border-color: var(--primary-dark);
       background: var(--primary-light);
-      transform: scale(0.98);
+      box-shadow: 0 6px 16px rgba(196, 139, 113, 0.25);
     }
 
     .dinner-card img {
       width: 100%;
-      height: 90px;
+      height: 150px;
       object-fit: cover;
-      border-radius: 8px;
+      border-radius: 10px;
+      cursor: zoom-in;
+    }
+
+    .dinner-card-info {
+      cursor: pointer;
+      padding: 4px 0;
     }
 
     .dinner-card-title {
       font-weight: 600;
-      font-size: 0.88rem;
+      font-size: 0.95rem;
+      color: var(--text);
     }
 
     .dinner-card-badge {
-      font-size: 0.72rem;
+      font-size: 0.78rem;
       color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    .dinner-select-btn {
+      background: var(--primary-light);
+      border: 1px solid var(--primary);
+      color: var(--primary-dark);
+      font-size: 0.8rem;
+      font-weight: 600;
+      padding: 6px 12px;
+      border-radius: 20px;
+      cursor: pointer;
+      margin-top: 4px;
+      transition: all 0.2s;
+    }
+
+    .dinner-card.selected .dinner-select-btn {
+      background: var(--primary-dark);
+      color: #fff;
+      border-color: var(--primary-dark);
     }
 
     .dinner-selected-msg {
-      margin-top: 12px;
-      font-size: 0.9rem;
+      margin-top: 14px;
+      font-size: 0.95rem;
       font-weight: 500;
       color: var(--primary-dark);
       text-align: center;
       display: none;
     }
 
-    /* Estado Bloqueado com Blur otimizado para iOS */
+    /* Estado Bloqueado */
     .card.locked {
-      background: rgba(255, 255, 255, 0.8);
+      background: rgba(255, 255, 255, 0.85);
     }
 
     .card.locked .card-content {
@@ -296,7 +431,7 @@
       user-select: none;
       -webkit-user-select: none;
       pointer-events: none;
-      opacity: 0.25;
+      opacity: 0.2;
     }
 
     .lock-overlay {
@@ -309,7 +444,7 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      background: rgba(250, 247, 242, 0.65);
+      background: rgba(250, 247, 242, 0.7);
       -webkit-backdrop-filter: blur(5px);
       backdrop-filter: blur(5px);
       border-radius: var(--radius);
@@ -333,21 +468,109 @@
       50% { transform: scale(1.08); opacity: 1; }
     }
 
-    /* Dev / Test Bar */
-    .dev-bar {
-      margin-top: 40px;
+    /* Lightbox Modal (Ecrã Cheio com Cruz) */
+    .lightbox-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.92);
+      -webkit-backdrop-filter: blur(10px);
+      backdrop-filter: blur(10px);
+      z-index: 9999;
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      box-sizing: border-box;
+      opacity: 0;
+      transition: opacity 0.25s ease;
+    }
+
+    .lightbox-modal.active {
+      display: flex;
+      opacity: 1;
+    }
+
+    .lightbox-close-btn {
+      position: absolute;
+      top: calc(15px + env(safe-area-inset-top));
+      right: 18px;
+      width: 44px;
+      height: 44px;
+      background: rgba(255, 255, 255, 0.2);
+      border: none;
+      border-radius: 50%;
+      color: #ffffff;
+      font-size: 1.6rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 10000;
+      transition: background 0.2s;
+    }
+
+    .lightbox-close-btn:active {
+      background: rgba(255, 255, 255, 0.4);
+    }
+
+    .lightbox-img-wrap {
+      max-width: 95%;
+      max-height: 75vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .lightbox-modal img {
+      max-width: 100%;
+      max-height: 70vh;
+      object-fit: contain;
+      border-radius: 12px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+      animation: zoomIn 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    @keyframes zoomIn {
+      from { transform: scale(0.9); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+
+    .lightbox-caption {
+      color: #f0f0f0;
+      font-size: 0.95rem;
+      margin-top: 14px;
       text-align: center;
-      padding-top: 20px;
+      max-width: 500px;
+      line-height: 1.4;
+    }
+
+    /* Botão do Modo de Teste */
+    .dev-bar {
+      margin-top: 45px;
+      text-align: center;
+      border-top: 1px dashed var(--border);
+      padding-top: 25px;
     }
 
     .btn-dev {
       background: none;
-      border: 1px dashed var(--border);
+      border: 1px solid var(--border);
       color: var(--text-muted);
       padding: 8px 16px;
       border-radius: 20px;
-      font-size: 0.78rem;
+      font-size: 0.8rem;
       cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-dev:hover {
+      background: var(--primary-light);
+      color: var(--primary-dark);
+      border-color: var(--primary);
     }
   </style>
 </head>
@@ -393,7 +616,7 @@
         </div>
       </section>
 
-      <!-- Bloco 2: O Transporte -->
+      <!-- Bloco 2: O Transporte + Carrossel de 4 Imagens do Mapa -->
       <section class="card locked" id="block-transporte" data-time="10:00">
         <div class="lock-overlay">
           <div class="lock-icon">🔒</div>
@@ -409,22 +632,74 @@
         </div>
         <div class="card-content">
           <p>
-            Pelas 10h uma viatura vai aparecer à porta de casa para te transportar para o primeiro local. Aqui está um mapa que indica o sítio onde vais ser largada e o caminho que tens de percorrer!
+            Pelas 10h uma viatura vai aparecer à porta de casa para te transportar para o primeiro local. Aqui está o teu transporte e o mapa com o caminho que tens de percorrer:
           </p>
           
-          <div class="media-grid">
-            <div class="media-placeholder">
-              <!-- Substitui por img/limousine.jpg ou URL -->
-              <img src="carro.jpg" alt="Limousine">
-              <span>🚘 O Teu Transporte</span>
+          <!-- Foto da Limousine -->
+          <div class="media-placeholder" style="margin-top: 14px;">
+            <!-- Substitui por img/limousine.jpg -->
+            <img class="zoomable-img" src="carro.png" alt="O Teu Transporte" onclick="openLightbox(this.src, '🚘 O teu transporte para hoje!')">
+            <span>🚘 O Teu Transporte <em>(Toca para ampliar)</em></span>
+          </div>
+
+          <!-- Carrossel de 4 Imagens para o Mapa & Caminho -->
+          <div class="carousel-section">
+            <div class="carousel-header-hint">
+              <span><strong>📍 O Teu Percurso (4 Passos)</strong></span>
+              <span><em>Toca na foto para ampliar 🔍</em></span>
             </div>
 
-            <div class="media-placeholder">
-              <!-- Substitui por img/mapa.jpg ou URL -->
-              <img src="mapa.jpg" alt="Mapa do Caminho">
-              <span>📍 Ponto de Encontro & Percurso</span>
+            <div class="carousel-container">
+              <div class="carousel-slides" id="carousel-track">
+                
+                <!-- Imagem 1 -->
+                <div class="carousel-slide">
+                  <img class="zoomable-img" src="https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?auto=format&fit=crop&w=800&q=80" alt="Passo 1" onclick="openLightbox(this.src, 'Passo 1: O local exato onde vais ser largada à saída da viatura.')">
+                  <div class="carousel-caption-box">
+                    <p class="slide-caption"><strong>Passo 1:</strong> O local exato onde vais ser largada à saída da viatura.</p>
+                  </div>
+                </div>
+
+                <!-- Imagem 2 -->
+                <div class="carousel-slide">
+                  <img class="zoomable-img" src="https://images.unsplash.com/photo-1524661135-423995f22d0b?auto=format&fit=crop&w=800&q=80" alt="Passo 2" onclick="openLightbox(this.src, 'Passo 2: Segue em frente pelo caminho assinalado no mapa.')">
+                  <div class="carousel-caption-box">
+                    <p class="slide-caption"><strong>Passo 2:</strong> Segue em frente pelo caminho assinalado no mapa.</p>
+                  </div>
+                </div>
+
+                <!-- Imagem 3 -->
+                <div class="carousel-slide">
+                  <img class="zoomable-img" src="https://images.unsplash.com/photo-1508873696983-2df5293cb32f?auto=format&fit=crop&w=800&q=80" alt="Passo 3" onclick="openLightbox(this.src, 'Passo 3: Ponto de referência a ter em conta no percurso.')">
+                  <div class="carousel-caption-box">
+                    <p class="slide-caption"><strong>Passo 3:</strong> Ponto de referência a ter em conta no percurso.</p>
+                  </div>
+                </div>
+
+                <!-- Imagem 4 -->
+                <div class="carousel-slide">
+                  <img class="zoomable-img" src="https://images.unsplash.com/photo-1477959858617-67f30bc54b81?auto=format&fit=crop&w=800&q=80" alt="Passo 4" onclick="openLightbox(this.src, 'Passo 4: O ponto de encontro secreto onde estarei à tua espera!')">
+                  <div class="carousel-caption-box">
+                    <p class="slide-caption"><strong>Passo 4:</strong> O ponto de encontro secreto onde estarei à tua espera! 💍</p>
+                  </div>
+                </div>
+
+              </div>
+
+              <!-- Botões do Carrossel -->
+              <button class="carousel-btn prev" onclick="moveCarousel(-1)">‹</button>
+              <button class="carousel-btn next" onclick="moveCarousel(1)">›</button>
+            </div>
+
+            <!-- Indicadores (Dots) -->
+            <div class="carousel-indicators">
+              <span class="dot active" onclick="goToSlide(0)"></span>
+              <span class="dot" onclick="goToSlide(1)"></span>
+              <span class="dot" onclick="goToSlide(2)"></span>
+              <span class="dot" onclick="goToSlide(3)"></span>
             </div>
           </div>
+
         </div>
       </section>
 
@@ -446,10 +721,10 @@
           <p>
             Depois de teres dito que <strong>SIM!</strong> 💍 Merecemos começar por onde sempre dissemos que um verdadeiro Perfect Day começaria: <strong>O Fauna e Flora</strong>.
           </p>
-          <div class="media-placeholder">
+          <div class="media-placeholder" style="margin-top: 14px;">
             <!-- Substitui por img/fauna.jpg -->
-            <img src="https://images.unsplash.com/photo-1533089860892-a7c6f0a88666?auto=format&fit=crop&w=800&q=80" alt="Fauna e Flora">
-            <span>🌿 Fauna & Flora Lovers</span>
+            <img class="zoomable-img" src="https://images.unsplash.com/photo-1533089860892-a7c6f0a88666?auto=format&fit=crop&w=800&q=80" alt="Fauna e Flora" onclick="openLightbox(this.src, '🌿 Fauna & Flora Lovers!')">
+            <span>🌿 Fauna & Flora Lovers <em>(Toca para ampliar)</em></span>
           </div>
         </div>
       </section>
@@ -472,10 +747,10 @@
           <p>
             Para ninguém desconfiar que um Perfect Day está em curso, é melhor refugiarmo-nos num hotel! Temos que ir a casa rapidamente preparar as malas e aproveitamos para contar tudo à Marcela! 🤫🧳
           </p>
-          <div class="media-placeholder">
+          <div class="media-placeholder" style="margin-top: 14px;">
             <!-- Substitui por img/hotel.jpg -->
-            <img src="hotel.jpg" alt="Hotel">
-            <span>✨ O Nosso Refúgio Secreto</span>
+            <img class="zoomable-img" src="hotel.png" alt="Hotel" onclick="openLightbox(this.src, '✨ O Nosso Refúgio Secreto')">
+            <span>✨ O Nosso Refúgio Secreto <em>(Toca para ampliar)</em></span>
           </div>
         </div>
       </section>
@@ -500,26 +775,40 @@
           </p>
 
           <div class="dinner-options">
-            <div class="dinner-card" onclick="selectDinner('Sushi (Fora)')">
+            
+            <!-- Opção 1: Sushi -->
+            <div class="dinner-card" id="card-sushi">
               <!-- Substitui por img/sushi.jpg -->
-              <img src="sushi.jpg" alt="Sushi">
-              <div class="dinner-card-title">Opção 1: Sushi</div>
-              <div class="dinner-card-badge">Restaurante / Fora</div>
+              <img class="zoomable-img" src="sushi.png" alt="Sushi" onclick="openLightbox(this.src, 'Opção 1: Sushi delicioso fora')">
+              <div class="dinner-card-info" onclick="selectDinner('Sushi (Fora)', 'card-sushi')">
+                <div class="dinner-card-title">Opção 1: Sushi</div>
+                <div class="dinner-card-badge">Restaurante / Fora</div>
+              </div>
+              <button class="dinner-select-btn" onclick="selectDinner('Sushi (Fora)', 'card-sushi')">Escolher Sushi 🍣</button>
             </div>
 
-            <div class="dinner-card" onclick="selectDinner('Pizza (Fora)')">
+            <!-- Opção 2: Pizza -->
+            <div class="dinner-card" id="card-pizza">
               <!-- Substitui por img/pizza.jpg -->
-              <img src=pizza.jpg alt="Pizza">
-              <div class="dinner-card-title">Opção 2: Pizza</div>
-              <div class="dinner-card-badge">Restaurante / Fora</div>
+              <img class="zoomable-img" src="pizza.png" alt="Pizza" onclick="openLightbox(this.src, 'Opção 2: Pizza artesanal fora')">
+              <div class="dinner-card-info" onclick="selectDinner('Pizza (Fora)', 'card-pizza')">
+                <div class="dinner-card-title">Opção 2: Pizza</div>
+                <div class="dinner-card-badge">Restaurante / Fora</div>
+              </div>
+              <button class="dinner-select-btn" onclick="selectDinner('Pizza (Fora)', 'card-pizza')">Escolher Pizza 🍕</button>
             </div>
 
-            <div class="dinner-card" onclick="selectDinner('Mac (Encomendado)')">
+            <!-- Opção 3: Mac -->
+            <div class="dinner-card" id="card-mac">
               <!-- Substitui por img/mac.jpg -->
-              <img src="mac.jpg" alt="McDonalds">
-              <div class="dinner-card-title">Opção 3: Mac</div>
-              <div class="dinner-card-badge">No Quarto</div>
+              <img class="zoomable-img" src="mac.png" alt="McDonalds" onclick="openLightbox(this.src, 'Opção 3: Mac quentinho no quarto')">
+              <div class="dinner-card-info" onclick="selectDinner('Mac (Encomendado)', 'card-mac')">
+                <div class="dinner-card-title">Opção 3: Mac</div>
+                <div class="dinner-card-badge">No Quarto</div>
+              </div>
+              <button class="dinner-select-btn" onclick="selectDinner('Mac (Encomendado)', 'card-mac')">Escolher Mac 🍔</button>
             </div>
+
           </div>
 
           <div class="dinner-selected-msg" id="dinner-msg"></div>
@@ -555,16 +844,26 @@
 
     </div>
 
-    <!-- Modo de Teste -->
+    <!-- Botão de Modo de Teste -->
     <div class="dev-bar">
-      <button class="btn-dev" onclick="toggleDevMode()">🛠️ Testar: Desbloquear / Bloquear Tudo</button>
+      <button class="btn-dev" onclick="toggleDevMode()">🛠️ Modo de Teste: Desbloquear / Bloquear Tudo</button>
     </div>
 
+  </div>
+
+  <!-- Lightbox Modal (Ecrã Cheio com Cruz) -->
+  <div class="lightbox-modal" id="lightbox" onclick="closeLightboxOnBackdrop(event)">
+    <button class="lightbox-close-btn" onclick="closeLightbox()">&times;</button>
+    <div class="lightbox-img-wrap">
+      <img id="lightbox-img" src="" alt="Zoomed">
+      <p class="lightbox-caption" id="lightbox-caption"></p>
+    </div>
   </div>
 
   <script>
     let devModeActive = false;
 
+    /* =================== HORÁRIOS & DESBLOQUEIO =================== */
     function checkSchedule() {
       if (devModeActive) return;
 
@@ -595,24 +894,10 @@
       });
     }
 
-    function selectDinner(choice) {
-      const cards = document.querySelectorAll('.dinner-card');
-      cards.forEach(c => c.classList.remove('selected'));
-      
-      const selectedCard = Array.from(cards).find(c => c.textContent.includes(choice.split(' ')[0]));
-      if(selectedCard) selectedCard.classList.add('selected');
+    setInterval(checkSchedule, 10000);
+    checkSchedule();
 
-      const msgEl = document.getElementById('dinner-msg');
-      msgEl.style.display = 'block';
-      msgEl.innerHTML = `Opção Escolhida: <strong>${choice}</strong>! 🥂`;
-
-      confetti({
-        particleCount: 60,
-        spread: 70,
-        origin: { y: 0.8 }
-      });
-    }
-
+    /* =================== MODO DE TESTE (DESBLOQUEAR TUDO) =================== */
     function toggleDevMode() {
       devModeActive = !devModeActive;
       const cards = document.querySelectorAll('.card');
@@ -623,8 +908,72 @@
       }
     }
 
-    setInterval(checkSchedule, 10000);
-    checkSchedule();
+    /* =================== CARROSSEL DO MAPA =================== */
+    let currentSlide = 0;
+    const totalSlides = 4;
+
+    function updateCarousel() {
+      const track = document.getElementById('carousel-track');
+      track.style.transform = `translateX(-${currentSlide * 100}%)`;
+      
+      const dots = document.querySelectorAll('.dot');
+      dots.forEach((dot, index) => {
+        dot.classList.toggle('active', index === currentSlide);
+      });
+    }
+
+    function moveCarousel(direction) {
+      currentSlide = (currentSlide + direction + totalSlides) % totalSlides;
+      updateCarousel();
+    }
+
+    function goToSlide(index) {
+      currentSlide = index;
+      updateCarousel();
+    }
+
+    /* =================== SELEÇÃO DO JANTAR =================== */
+    function selectDinner(choice, cardId) {
+      const cards = document.querySelectorAll('.dinner-card');
+      cards.forEach(c => c.classList.remove('selected'));
+      
+      const targetCard = document.getElementById(cardId);
+      if (targetCard) targetCard.classList.add('selected');
+
+      const msgEl = document.getElementById('dinner-msg');
+      msgEl.style.display = 'block';
+      msgEl.innerHTML = `Opção Escolhida: <strong>${choice}</strong>! Preparado para tratar de tudo! 🥂✨`;
+
+      confetti({
+        particleCount: 60,
+        spread: 70,
+        origin: { y: 0.8 }
+      });
+    }
+
+    /* =================== LIGHTBOX / ZOOM DE IMAGEM =================== */
+    function openLightbox(src, captionText) {
+      const lightbox = document.getElementById('lightbox');
+      const img = document.getElementById('lightbox-img');
+      const caption = document.getElementById('lightbox-caption');
+
+      img.src = src;
+      caption.textContent = captionText || '';
+      lightbox.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeLightbox() {
+      const lightbox = document.getElementById('lightbox');
+      lightbox.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    function closeLightboxOnBackdrop(event) {
+      if (event.target.id === 'lightbox' || event.target.classList.contains('lightbox-img-wrap')) {
+        closeLightbox();
+      }
+    }
   </script>
 </body>
 </html>
